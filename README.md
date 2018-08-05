@@ -1,3 +1,3 @@
 # Wyrmy
 
-worm counting aid
+c. elegans counting/scoring aid
