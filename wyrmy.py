@@ -1,8 +1,24 @@
 import sys
+import dill
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QProgressBar
 from PyQt5.QtGui import QIcon
+
+
+class Pair:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+class WormPic:
+
+    def __init__(self, filename='', dead=[], alive=[]):
+        self.filename = filename
+        self.dead = dead
+        self.alive = alive
 
 
 class Wyrmy(QWidget):
@@ -17,6 +33,7 @@ class Wyrmy(QWidget):
         self.setWindowIcon(QIcon('resources/wyrmytheworm.png'))
 
         # get images to use
+        self.worms = {}
         self.index = 0
         self.file_names = []
         self.images = {}
@@ -46,6 +63,10 @@ class Wyrmy(QWidget):
         self.move(int((self.screen_width / 2) - (self.width / 2)),
                   int(((self.screen_height - 100) / 2) - (self.height / 2)))
 
+        self.label.mousePressEvent = self.image_clicked
+        self.dead_pic = QtGui.QPixmap('resources/red_target_scaled.png')
+        self.alive_pic = QtGui.QPixmap('resources/green_target_scaled.png')
+
         self.layout.addWidget(self.label, 0, 0)
 
         self.refresh()
@@ -56,6 +77,8 @@ class Wyrmy(QWidget):
         file_names_import = QFileDialog.getOpenFileNames(self, "Open Image", "/",
                                                          "Image Files (*.png *.jpg *.bmp *.tiff *.tif)")
         self.file_names = file_names_import[0]
+        for name in self.file_names:
+            self.worms[name] = WormPic(filename=name)
 
     def refresh(self):
         # take care of index wraparounds
@@ -77,6 +100,22 @@ class Wyrmy(QWidget):
         self.label.setPixmap(self.img)
         self.setWindowTitle('Wyrmy - ' + curr_img_name)
 
+        curr_pic = self.worms[self.file_names[self.index]]
+        print(curr_pic.filename)
+
+        for coords in curr_pic.dead:
+            curr_dead = QLabel(self)
+            curr_dead.setPixmap(self.dead_pic)
+            self.layout.addWidget(curr_dead, 0, 0)
+            curr_dead.move(coords.x*self.img.width(), coords.y*self.img.height())
+            # print(coords.x, ', ', coords.y)
+        for coords in curr_pic.alive:
+            curr_alive = QLabel(self)
+            curr_alive.setPixmap(self.alive_pic)
+            self.layout.addWidget(curr_alive)
+            curr_alive.move(coords.x * self.img.width(), coords.y * self.img.height())
+            # print(coords.x, ', ', coords.y)
+
     def safe_index(self, index):
         if index < 0:
             new_ind = len(self.file_names) + index
@@ -87,7 +126,7 @@ class Wyrmy(QWidget):
         if new_ind < 0:
             new_ind = 0
         elif new_ind > len(self.file_names) - 1:
-            new_ind = len(self.file_names) -1
+            new_ind = len(self.file_names) - 1
         return new_ind
 
     def keyPressEvent(self, event):
@@ -98,23 +137,14 @@ class Wyrmy(QWidget):
         self.refresh()
         event.accept()
 
-    # def reload_images(self):
-    #     for i in range(self.index-24, self.index+24):
-    #         if i < 0:
-    #             new_ind = len(self.file_names)+i
-    #         elif i > len(self.file_names)-1:
-    #             new_ind = i-len(self.file_names)-1
-    #         else:
-    #             new_ind = i
-    #
-    #         if new_ind < 0 or new_ind > len(self.file_names):
-    #             new_ind = self.index
-    #
-    #         if self.file_names[new_ind] not in self.images:
-    #             orig = QtGui.QPixmap(self.file_names[new_ind])
-    #             scale_by = self.screen_height * 0.75 / orig.height()
-    #             self.images[self.file_names[new_ind]] = (orig.scaled(orig.width() * scale_by, orig.height() *
-    #                                                   scale_by, QtCore.Qt.KeepAspectRatio))
+    def image_clicked(self, event):
+        click = Pair(event.x()/self.img.width(), event.y()/self.img.height())
+        if event.button() == QtCore.Qt.LeftButton:
+            self.worms[self.file_names[self.index]].alive.append(click)
+        if event.button() == QtCore.Qt.RightButton:
+            self.worms[self.file_names[self.index]].dead.append(click)
+        self.refresh()
+        event.accept()
 
 
 if __name__ == '__main__':
