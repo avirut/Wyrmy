@@ -1,6 +1,5 @@
 import sys
-import csv
-import dill
+import pickle
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QBoxLayout, QPushButton
@@ -46,6 +45,7 @@ class Wyrmy(QWidget):
         self.alive, self.dead = QLabel(), QLabel()
         self.percent = QLabel()
         self.open, self.save, self.export = QPushButton(), QPushButton(), QPushButton()
+        self.curr_img_disp = QLabel()
         self.alive.setText('Alive: 0')
         self.dead.setText('Dead: 0')
         self.percent.setText('Percent: 0%')
@@ -86,9 +86,10 @@ class Wyrmy(QWidget):
         self.panel_layout.addWidget(self.alive, 0, 0)
         self.panel_layout.addWidget(self.dead, 1, 0)
         self.panel_layout.addWidget(self.percent, 2, 0)
-        self.panel_layout.addWidget(self.open, 0, 1)
-        self.panel_layout.addWidget(self.save, 1, 1)
-        self.panel_layout.addWidget(self.export, 2, 1)
+        self.panel_layout.addWidget(self.curr_img_disp, 1, 1)
+        self.panel_layout.addWidget(self.open, 0, 2)
+        self.panel_layout.addWidget(self.save, 1, 2)
+        self.panel_layout.addWidget(self.export, 2, 2)
 
         self.move(int((self.screen_width / 2) - (self.width / 2)),
                   int(((self.screen_height - 100) / 2) - (self.height / 2)))
@@ -133,6 +134,8 @@ class Wyrmy(QWidget):
         self.setWindowTitle('Wyrmy - ' + curr_img_name)
 
         curr_pic = self.worms[Wyrmy.pic_name(self.file_names[self.index])]
+
+        self.curr_img_disp.setText(Wyrmy.pic_name(curr_img_name))
 
         num_dead = len(curr_pic.dead)
         num_alive = len(curr_pic.alive)
@@ -218,12 +221,17 @@ class Wyrmy(QWidget):
     @pyqtSlot()
     def open_file(self):
         input_from = QFileDialog.getOpenFileName(self, caption='Open File', filter='Wyrmy Data (*.wyrm)')
-        dill.load_session(input_from[0])
+        with open(input_from[0], 'rb') as reading:
+            self.worms = pickle.load(reading)
+            reading.close()
+        self.refresh()
 
     @pyqtSlot()
     def save_file(self):
         output_at = QFileDialog.getSaveFileName(self, caption='Save File', filter='Wyrmy Data (*.wyrm)')
-        dill.dump_session(output_at[0])
+        with open(output_at[0], 'wb') as out:
+            pickle.dump(self.worms, out)
+            out.close()
 
     @pyqtSlot()
     def export_data(self):
