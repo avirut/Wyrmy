@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
 
+# stores coordinate points
 class Pair:
 
     def __init__(self, x, y):
@@ -14,6 +15,7 @@ class Pair:
         self.y = y
 
 
+# stores data for each worm picture
 class WormPic:
 
     def __init__(self, filename=''):
@@ -22,6 +24,7 @@ class WormPic:
         self.alive = []
 
 
+# main application object
 class Wyrmy(QWidget):
 
     def __init__(self, outside):
