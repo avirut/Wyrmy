@@ -147,7 +147,7 @@ class Wyrmy(QWidget):
         dead_text = 'Dead: ' + str(num_dead)
         self.dead.setText(dead_text)
         if num_dead + num_alive > 0:
-            percent_text = '% Dead: ' + str(num_dead / (num_dead + num_alive))
+            percent_text = '% Dead: ' + str(100 * num_dead / (num_dead + num_alive))
         else:
             percent_text = '% Dead: 0'
         self.percent.setText(percent_text)
