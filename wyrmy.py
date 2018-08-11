@@ -224,28 +224,31 @@ class Wyrmy(QWidget):
     @pyqtSlot()
     def open_file(self):
         input_from = QFileDialog.getOpenFileName(self, caption='Open File', filter='Wyrmy Data (*.wyrm)')
-        with open(input_from[0], 'rb') as reading:
-            self.worms = pickle.load(reading)
-            reading.close()
+        if len(input_from[0]) > 0:
+            with open(input_from[0], 'rb') as reading:
+                self.worms = pickle.load(reading)
+                reading.close()
         self.refresh()
 
     @pyqtSlot()
     def save_file(self):
         output_at = QFileDialog.getSaveFileName(self, caption='Save File', filter='Wyrmy Data (*.wyrm)')
-        with open(output_at[0], 'wb') as out:
-            pickle.dump(self.worms, out)
-            out.close()
+        if len(output_at[0]) > 0:
+            with open(output_at[0], 'wb') as out:
+                pickle.dump(self.worms, out)
+                out.close()
 
     @pyqtSlot()
     def export_data(self):
         output_at = QFileDialog.getSaveFileName(self, caption='Save File', filter='CSV (Comma delimited) (*.csv)')
-        out = open(output_at[0], 'a')
-        out.write('Name,Alive,Dead\n')
-        for name in self.file_names:
-            curr = self.worms[Wyrmy.pic_name(name)]
-            this_pic = str(curr.filename) + ',' + str(len(curr.alive)) + ',' + str(len(curr.dead)) + '\n'
-            out.write(this_pic)
-        out.close()
+        if len(output_at[0]) > 0:
+            out = open(output_at[0], 'a')
+            out.write('Name,Alive,Dead\n')
+            for name in self.file_names:
+                curr = self.worms[Wyrmy.pic_name(name)]
+                this_pic = str(curr.filename) + ',' + str(len(curr.alive)) + ',' + str(len(curr.dead)) + '\n'
+                out.write(this_pic)
+            out.close()
 
 
 if __name__ == '__main__':
