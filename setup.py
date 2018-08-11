@@ -12,12 +12,13 @@ options = {
 }
 
 executables = [
-    Executable('PyQt5app.py', base=base)
+    Executable('wyrmy.py', base=base, targetName='Wyrmy.exe')
 ]
 
-setup(name='simple_PyQt5',
-      version='0.1',
-      description='Sample cx_Freeze PyQt5 script',
+setup(name='Wyrmy',
+      version='1.0',
+      author='Avirut Mehta',
+      description='C. elegans scoring aid',
       options=options,
       executables=executables
       )
