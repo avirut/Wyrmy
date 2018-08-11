@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>resources/green_target_scaled.png</file>
+    <file>resources/red_target_scaled.png</file>
+    <file>resources/wyrmytheworm.png</file>
+</qresource>
+</RCC>

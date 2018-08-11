@@ -1,5 +1,6 @@
 import sys
 import pickle
+import resources
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QBoxLayout, QPushButton
@@ -34,7 +35,7 @@ class Wyrmy(QWidget):
         self.app_control = outside
         screen_res = self.app_control.desktop().screenGeometry()
         self.screen_width, self.screen_height = screen_res.width(), screen_res.height()
-        self.setWindowIcon(QIcon('resources/wyrmytheworm.png'))
+        self.setWindowIcon(QIcon(':/resources/wyrmytheworm.png'))
 
         # get images to use
         self.worms = {}
@@ -98,8 +99,8 @@ class Wyrmy(QWidget):
                   int(((self.screen_height - 100) / 2) - (self.height / 2)))
 
         self.label.mousePressEvent = self.image_clicked
-        self.dead_pic = QtGui.QPixmap('resources/red_target_scaled.png')
-        self.alive_pic = QtGui.QPixmap('resources/green_target_scaled.png')
+        self.dead_pic = QtGui.QPixmap(':/resources/red_target_scaled.png')
+        self.alive_pic = QtGui.QPixmap(':/resources/green_target_scaled.png')
 
         self.layout.addWidget(self.label, 0, 0)
 
