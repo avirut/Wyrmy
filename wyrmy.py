@@ -1,9 +1,11 @@
 import sys
+import csv
 import dill
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QBoxLayout, QPushButton
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
 
 
 class Pair:
@@ -48,11 +50,17 @@ class Wyrmy(QWidget):
         self.dead.setText('Dead: 0')
         self.percent.setText('Percent: 0%')
         self.open.setText('Open')
+        self.open.setToolTip('Load a data file')
         self.save.setText('Save')
+        self.save.setToolTip('Save a data file')
         self.export.setText('Export')
+        self.export.setToolTip('Export data as CSV')
         self.open.setMaximumWidth(100)
         self.save.setMaximumWidth(100)
         self.export.setMaximumWidth(100)
+        self.open.clicked.connect(self.open_file)
+        self.save.clicked.connect(self.save_file)
+        self.export.clicked.connect(self.export_data)
 
         self.layout = QGridLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -206,6 +214,27 @@ class Wyrmy(QWidget):
         #             break
         self.refresh()
         event.accept()
+
+    @pyqtSlot()
+    def open_file(self):
+        input_from = QFileDialog.getOpenFileName(self, caption='Open File', filter='Wyrmy Data (*.wyrm)')
+        dill.load_session(input_from[0])
+
+    @pyqtSlot()
+    def save_file(self):
+        output_at = QFileDialog.getSaveFileName(self, caption='Save File', filter='Wyrmy Data (*.wyrm)')
+        dill.dump_session(output_at[0])
+
+    @pyqtSlot()
+    def export_data(self):
+        output_at = QFileDialog.getSaveFileName(self, caption='Save File', filter='CSV (Comma delimited) (*.csv)')
+        out = open(output_at[0], 'a')
+        out.write('Name,Alive,Dead\n')
+        for name in self.file_names:
+            curr = self.worms[Wyrmy.pic_name(name)]
+            this_pic = str(curr.filename) + ',' + str(len(curr.alive)) + ',' + str(len(curr.dead)) + '\n'
+            out.write(this_pic)
+        out.close()
 
 
 if __name__ == '__main__':
