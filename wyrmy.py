@@ -4,7 +4,7 @@ import resources
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QBoxLayout, QPushButton
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QMouseEvent
 from PyQt5.QtCore import pyqtSlot
 
 
@@ -73,9 +73,9 @@ class Wyrmy(QWidget):
         self.panel_layout = QGridLayout(self.layout.widget())
         self.panel_layout.setContentsMargins(15, 0, 15, 0)
 
-        orig = QtGui.QPixmap(self.file_names[self.index])
-        scale_by = self.screen_height * 0.75 / orig.height()
-        self.img = orig.scaled(orig.width() * scale_by, orig.height() * scale_by, QtCore.Qt.KeepAspectRatio)
+        self.orig = QtGui.QPixmap(self.file_names[self.index])
+        scale_by = self.screen_height * 0.75 / self.orig.height()
+        self.img = self.orig.scaled(self.orig.width() * scale_by, self.orig.height() * scale_by, QtCore.Qt.KeepAspectRatio)
         self.panel_height = self.screen_height * 0.1
         self.width, self.height = self.img.width(), self.img.height() + self.panel_height
 
@@ -95,8 +95,9 @@ class Wyrmy(QWidget):
         self.panel_layout.addWidget(self.save, 1, 2)
         self.panel_layout.addWidget(self.export, 2, 2)
 
-        self.move(int((self.screen_width / 2) - (self.width / 2)),
-                  int(((self.screen_height - 100) / 2) - (self.height / 2)))
+        startX = int((self.screen_width / 2) - (self.width / 2))
+        startY = int(((self.screen_height - 100) / 2) - (self.height / 2))
+        self.move(startX, startY)
 
         self.label.mousePressEvent = self.image_clicked
         self.dead_pic = QtGui.QPixmap(':/resources/red_target_scaled.png')
@@ -190,10 +191,22 @@ class Wyrmy(QWidget):
         return file_name[last_index + 1:last_index + 4]
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_A:
+        if event.key() == QtCore.Qt.Key_W:
             self.index -= 1
-        if event.key() == QtCore.Qt.Key_D:
+        if event.key() == QtCore.Qt.Key_S:
             self.index += 1
+        if event.key() == QtCore.Qt.Key_A:
+            start = QWidget.mapToGlobal(self.label, self.label.pos())
+            click_x = (QtGui.QCursor.pos().x() - start.x()) / self.img.width()
+            click_y = (QtGui.QCursor.pos().y() - start.y()) / self.img.height()
+            click = Pair(click_x, click_y)
+            self.worms[Wyrmy.pic_name(self.file_names[self.index])].alive.append(click)
+        if event.key() == QtCore.Qt.Key_D:
+            start = QWidget.mapToGlobal(self.label, self.label.pos())
+            click_x = (QtGui.QCursor.pos().x() - start.x()) / self.img.width()
+            click_y = (QtGui.QCursor.pos().y() - start.y()) / self.img.height()
+            click = Pair(click_x, click_y)
+            self.worms[Wyrmy.pic_name(self.file_names[self.index])].dead.append(click)
         if event.key() == QtCore.Qt.Key_X:
             curr_pic = self.worms[Wyrmy.pic_name(self.file_names[self.index])]
             curr_pic.alive = []
