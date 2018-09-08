@@ -3,8 +3,8 @@ import pickle
 import resources
 
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGroupBox, QGridLayout, QBoxLayout, QPushButton
-from PyQt5.QtGui import QIcon, QMouseEvent
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QLabel, QGridLayout, QBoxLayout, QPushButton
+from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
 
