@@ -1,6 +1,6 @@
 # Wyrmy
 
-Watch a demonstration of Wyrmy at https://avirut.github.io/Wyrmy.
+Watch a demonstration of Wyrmy at https://avirut.github.io/wyrmy.
 
 ## About
 
