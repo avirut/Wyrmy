@@ -2,6 +2,8 @@
 
 Watch a demonstration of Wyrmy at https://avirut.github.io/Wyrmy.
 
+## About
+
 I developed Wyrmy while interning at the Kirienko Lab at Rice University. A large portion of the experiment I worked on during this period involved data analysis, and manual scoring of the virulence of chemical and biological samples on a population of Caenorhabditis elegans, measured in a high-throughput manner through the use of multiple 384-well plates which were then photographed through a microscope system.
 
 In order to manually score C. elegans samples, I would analyze images as a whole, counting how many worms were present in each image and then counting how many of these were dead, inputting both numbers manually into a spreadsheet. This was an intensive task as it required complete focus on keeping track of what had and had not been counted, and the effort required additionally led to inaccuracies and mis-scores over time.
