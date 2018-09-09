@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<!--
+	Identity by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Wrymy</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" type="img/ico" href="images/another-wyrm.ico">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main">
+						<header>
+							<span class="avatar"><img src="images/another-wyrm.png" alt="" /></span>
+							<h1>Wyrmy</h1>
+							<p><i>C. elegans</i> scoring aid</p>
+						</header>
+						<!--
+						<hr />
+						<h2>Extra Stuff!</h2>
+						<form method="post" action="#">
+							<div class="fields">
+								<div class="field">
+									<input type="text" name="name" id="name" placeholder="Name" />
+								</div>
+								<div class="field">
+									<input type="email" name="email" id="email" placeholder="Email" />
+								</div>
+								<div class="field">
+									<select name="department" id="department">
+										<option value="">Department</option>
+										<option value="sales">Sales</option>
+										<option value="tech">Tech Support</option>
+										<option value="null">/dev/null</option>
+									</select>
+								</div>
+								<div class="field">
+									<textarea name="message" id="message" placeholder="Message" rows="4"></textarea>
+								</div>
+								<div class="field">
+									<input type="checkbox" id="human" name="human" /><label for="human">I'm a human</label>
+								</div>
+								<div class="field">
+									<label>But are you a robot?</label>
+									<input type="radio" id="robot_yes" name="robot" /><label for="robot_yes">Yes</label>
+									<input type="radio" id="robot_no" name="robot" /><label for="robot_no">No</label>
+								</div>
+							</div>
+							<ul class="actions special">
+								<li><a href="#" class="button">Get Started</a></li>
+							</ul>
+						</form>
+						<hr />
+						-->
+						<footer>
+							<ul class="icons">
+								<li><a id="myBtn" class="fa-info">About</a></li>
+								<li><a href="https://github.com/avirut/Wyrmy/releases/tag/v1.0" class="fa-download">Download</a></li>
+								<li><a href="https://www.github.com/avirut/wyrmy" class="fa-github">GitHub</a></li>
+							</ul>
+						</footer>
+					</section>
+					
+					<!-- The Modal -->
+					<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+						<span class="close">About Wyrmy &times;</span>
+						<video width="100%" controls>
+						  <source src="editedwyrmy.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+						</video>
+						<p>
+						I developed Wyrmy while interning at the <a href="http://kirienkolab.rice.edu/">Kirienko Lab at Rice University</a>. A large portion of the experiment I worked on during this period involved data analysis, and manual scoring of the virulence of chemical and biological samples on a population of <i>Caenorhabditis elegans</i>, measured in a high-throughput manner through the use of multiple 384-well plates which were then photographed through a microscope system.
+						</p>
+						<p>
+						In order to manually score <i>C. elegans</i> samples, I would analyze images as a whole, counting how many worms were present in each image and then counting how many of these were dead, inputting both numbers manually into a spreadsheet. This was an intensive task as it required complete focus on keeping track of what had and had not been counted, and the effort required additionally led to inaccuracies and mis-scores over time.
+						</p>
+						<p>
+						To solve this issue, I developed <b>Wyrmy</b> with the aim of reducing the task to its simplest form - identifying individual roundworms as dead or alive. Wyrmy allows the user to mark individual specimens one way or another, keeping track of how many have been marked on each image individually. When a dataset is complete, the collected information can be exported to a spreadsheet. Wyrmy also makes it possible to keep track of which worms were marked each way - individual scores can be saved into a proprietary file format and later loaded back with the dataset, even on another computer.
+						</p>
+					  </div>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="copyright">
+							<li>&copy; Avirut Mehta</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script>
+				if ('addEventListener' in window) {
+					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-preload\b/, ''); });
+					document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
+				}
+				
+				var modal = document.getElementById('myModal');
+
+				// Get the button that opens the modal
+				var btn = document.getElementById("myBtn");
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks on the button, open the modal 
+				btn.onclick = function() {
+					modal.style.display = "block";
+				}
+
+				// When the user clicks on <span> (x), close the modal
+				span.onclick = function() {
+					modal.style.display = "none";
+				}
+
+				// When the user clicks anywhere outside of the modal, close it
+				window.onclick = function(event) {
+					if (event.target == modal) {
+						modal.style.display = "none";
+					}
+				}
+			</script>
+
+	</body>
+</html>
